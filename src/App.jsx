@@ -1,19 +1,21 @@
-// src/App.jsx
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const API_KEY = "pub_fcfccf041f154b23b7096e5238008114";
 const COUNTRY = "us";
-const CATEGORIES = ["business", "entertainment", "health", "science", "sports", "technology"]; // example categories
+const CATEGORIES = ["business", "entertainment", "health", "science", "sports", "technology"];
 
 function App() {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [nextPageUrl, setNextPageUrl] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(""); // "" means all categories
+  const [nextPageUrl, setNextPageUrl] = useState(
+    `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${COUNTRY}`
+  );
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const buildUrl = (category = "", nextPage = null) => {
-    if (nextPage) return nextPage; // use the API-provided nextPage if available
+    if (nextPage) return nextPage;
     let url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${COUNTRY}`;
     if (category) url += `&category=${category}`;
     return url;
@@ -31,7 +33,6 @@ function App() {
         setError(data.results?.message || "Error fetching news");
         setNextPageUrl(null);
       } else {
-        // append or replace depending on whether it's category change or Load More
         setNews((prev) => (nextPage ? [...prev, ...(data.results || [])] : data.results || []));
         setNextPageUrl(data.nextPage || null);
       }
@@ -43,14 +44,13 @@ function App() {
     }
   };
 
-  // initial load
   useEffect(() => {
     fetchNews();
   }, []);
 
   const selectCategory = (category) => {
     setSelectedCategory(category);
-    fetchNews(null, category); // fetch new category, reset news
+    fetchNews(null, category);
   };
 
   return (
@@ -111,6 +111,14 @@ function App() {
                   {new Date(item.pubDate).toLocaleString()}
                 </small>
               )}
+              {/* See More Button */}
+              <Link
+                to={`/article/${encodeURIComponent(idx)}`}
+                state={{ article: item }}
+                className="mt-2 inline-block px-4 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition"
+              >
+                See More
+              </Link>
             </div>
           </li>
         ))}
