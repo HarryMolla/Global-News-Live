@@ -1,1 +1,29 @@
 @import "tailwindcss";
+/* globals.css or tailwind.css */
+
+/* Hide scrollbar for all browsers */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Mobile default: fade applied */
+.mask-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 90%, transparent);
+  -webkit-mask-size: 100% 100%;
+  mask-image: linear-gradient(to right, transparent, black 5%, black 90%, transparent);
+  mask-size: 100% 100%;
+}
+
+/* Desktop: remove fade */
+@media (min-width: 768px) { /* md breakpoint */
+  .mask-fade {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+

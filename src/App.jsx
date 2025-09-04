@@ -1,3 +1,4 @@
+import { div } from "framer-motion/client";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -100,37 +101,40 @@ function App() {
 
   return (
     <div>
-      <div className="p-8 max-w-7xl mx-auto">
-        <div className="flex flex-col gap-4 mb-6 items-center">
+      <div className=" ">
+        <div className="fixed bottom-4 left-0 right-0 z-50 bg-white/70 border border-white backdrop-blur-sm p-4 rounded-2xl shadow-2xl mx-5
+                md:left-1/2 md:transform md:-translate-x-1/2 md:w-max">
           {/* Category Buttons */}
-          <div className="flex flex-wrap gap-2 justify-center w-full max-w-4xl">
-            <button
-              className={`px-4 py-2 rounded-full font-medium ${
-                selectedCategory === ""
-                  ? "bg-blue-500 text-white shadow"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              } transition`}
-              onClick={() => selectCategory("")}
-            >
-              All
-            </button>
-            {CATEGORIES.map((cat) => (
+          <div className="overflow-x-auto scrollbar-hide relative mask-fade md:mask-none ">
+            <div className="inline-flex gap-2 min-w-max md:min-w-0 md:justify-center md:w-full md:flex-wrap ">
               <button
-                key={cat}
-                className={`px-4 py-2 rounded-full font-medium ${
-                  selectedCategory === cat
+                className={`px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 ml-3 ${
+                  selectedCategory === ""
                     ? "bg-blue-500 text-white shadow"
                     : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                 } transition`}
-                onClick={() => selectCategory(cat)}
+                onClick={() => selectCategory("")}
               >
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                All
               </button>
-            ))}
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  className={`px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 ${
+                    selectedCategory === cat
+                      ? "bg-blue-500 text-white shadow"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  } transition`}
+                  onClick={() => selectCategory(cat)}
+                >
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Search Input - Full width under categories */}
-          <div className="w-full max-w-4xl">
+          {/* Search Input */}
+          <div className="mt-4  md:w-full">
             <div className="relative">
               <input
                 type="text"
@@ -139,7 +143,6 @@ function App() {
                 placeholder="Search..."
                 className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
               />
-              {/* Filter Icon */}
               <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer hover:text-blue-500">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -165,13 +168,13 @@ function App() {
         )}
         {error && <p className="text-red-500 text-center">{error}</p>}
 
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {filteredNews.map((item, idx) => (
             <li key={idx}>
               <Link
                 to={`/article/${encodeURIComponent(idx)}`}
                 state={{ article: item }}
-                className="p-2 bg-white border border-blue-100 rounded-xl flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
+                className="p-4 bg-white  rounded-xl flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
               >
                 {item.image_url ? (
                   <img
@@ -194,9 +197,9 @@ function App() {
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     {item.title && (
-                      <h className="mt-2 text-gray-800 line-clamp-2 font-medium">
+                      <p className="mt-2 text-gray-800 line-clamp-2 font-medium">
                         {item.description}
-                      </h>
+                      </p>
                     )}
 
                     {item.category && (
