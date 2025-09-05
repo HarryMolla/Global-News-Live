@@ -7,7 +7,7 @@ function NewsDetail() {
 
   if (!article) {
     return (
-      <div className="p-4 max-w-4xl mx-auto">
+      <div className="p-4 max-w-4xl mx-auto md:mt-25 mt-10 ">
         <p>No article found.</p>
         <button
           onClick={() => navigate(-1)}
@@ -20,15 +20,8 @@ function NewsDetail() {
   }
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
-      <button
-        onClick={() => navigate(-1)}
-        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded"
-      >
-        Back
-      </button>
-
-      <h1 className="text-3xl font-bold mb-4">{article.title}</h1>
+    <div className="p-4 max-w-4xl mx-auto md:mt-25 mt-10 md:mb-40 mb-20">
+      <p className="mt-2 text-gray-800 font-medium mb-3 text-2xl">{article.title}</p>
 
       {article.image_url && (
         <img

@@ -1,15 +1,6 @@
+import { img } from "framer-motion/client";
 import React, { useState, useEffect } from "react";
-
-const AcmeLogo = () => (
-  <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
-    <path
-      clipRule="evenodd"
-      d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-      fill="currentColor"
-      fillRule="evenodd"
-    />
-  </svg>
-);
+import logo from "../assets/Global News live logo.svg";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,15 +9,15 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-    useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
 
       if (currentScroll > lastScrollY && currentScroll > 15) {
-        // scrolling down beyond 50px → hide
+        
         setShowNavbar(false);
       } else if (lastScrollY - currentScroll > 15) {
-        // scrolling up more than 50px → show
+        
         setShowNavbar(true);
       }
 
@@ -38,14 +29,21 @@ export default function Navbar() {
   }, [lastScrollY]);
 
   return (
-    <nav className={` bg-white/70 border-1 border-white backdrop-blur-sm  z-50  ml-5 mr-5  md:ml-70 md:mr-70 mt-5  rounded-2xl shadow-blue-100 sticky  top-0 ${
+    <nav
+      className={` bg-white/70 border-1 mx-auto border-white backdrop-blur-sm  z-50  ml-5 mr-5  md:ml-70 md:mr-70 mt-5  rounded-2xl shadow-blue-100 sticky  top-0 ${
         showNavbar ? "translate-y-5" : "-translate-y-full"
-      }`} >
+      }`}
+    >
       {/* Mobile Top Bar */}
       <div className="flex items-center justify-between px-4 py-3 sm:hidden">
         <div className="flex items-center space-x-2">
-          <AcmeLogo />
-          <span className="font-bold text-lg">ACME</span>
+          <a href="/">
+            <img
+              src={logo}
+              alt="Global News"
+              className="h-8 w-auto md:h-10 lg:h-12"
+            />
+          </a>
         </div>
 
         <button
@@ -114,8 +112,13 @@ export default function Navbar() {
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center justify-between px-6 py-4 ">
         <div className="flex items-center space-x-2">
-          <AcmeLogo />
-          <span className="font-bold text-lg">ACME</span>
+          <a href="/">
+            <img
+              src={logo}
+              alt="Global News"
+              className="h-8 w-auto md:h-10 lg:h-12"
+            />
+          </a>
         </div>
         <div className="flex items-center space-x-6">
           <a href="#" className="text-gray-800  hover:text-blue-500">

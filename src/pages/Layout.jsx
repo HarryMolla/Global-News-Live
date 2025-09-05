@@ -5,12 +5,12 @@ import NavBar from "../components/NavBar";
 
 const Layout = () => {
   return (
-    <div className="bg-blue-50/40  min-h-screen flex flex-col  ">
+    <div className="bg-blue-50/60  min-h-screen flex flex-col  ">
        <NavBar/>
         <main>
           <Outlet />
         </main>
-        <Footer />
+       
     </div>
   );
 };
