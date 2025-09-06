@@ -38,7 +38,7 @@ function NewsDetail() {
   }
 
   return (
-    <div className="p-4 max-w-4xl mx-auto md:mt-25 mt-10 md:mb-40 mb-20">
+    <div className="p-4 max-w-4xl mx-auto md:mt-10 mt-5 md:mb-50 mb-20">
       <p className="mt-2 text-gray-800 font-medium mb-3 text-xl">{article.title}</p>
 
       {article.image_url && (
@@ -63,14 +63,19 @@ function NewsDetail() {
 
       {article.description && <p className="mb-4">{article.description}</p>}
 
-      <a
-        href={article.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-600 hover:underline"
-      >
-        Read full article
-      </a>
+      {article.link && (
+  <a
+  href={article.link}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-3 rounded w-full flex justify-center items-center gap-1"
+>
+  Read full article
+
+</a>
+
+)}
+
 
       {/* Related News */}
 {relatedNews.length > 0 && (
