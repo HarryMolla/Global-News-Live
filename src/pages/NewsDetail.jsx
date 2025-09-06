@@ -1,13 +1,31 @@
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function NewsDetail() {
   const location = useLocation();
   const navigate = useNavigate();
   const article = location.state?.article;
+  const [relatedNews, setRelatedNews] = useState([]);
+
+  useEffect(() => {
+    if (!article) return;
+
+    // Load cached news from localStorage (same as in App)
+    const cachedNews = JSON.parse(localStorage.getItem("news")) || [];
+
+    // Filter related news by category, exclude current article
+    const related = cachedNews.filter(
+      (item) =>
+        item.title !== article.title &&
+        item.category?.some((c) => article.category?.includes(c))
+    );
+
+    setRelatedNews(related.slice(0, 5)); // Limit to 5 related articles
+  }, [article]);
 
   if (!article) {
     return (
-      <div className="p-4 max-w-4xl mx-auto md:mt-25 mt-10 ">
+      <div className="p-4 max-w-4xl mx-auto md:mt-25 mt-10">
         <p>No article found.</p>
         <button
           onClick={() => navigate(-1)}
@@ -21,7 +39,7 @@ function NewsDetail() {
 
   return (
     <div className="p-4 max-w-4xl mx-auto md:mt-25 mt-10 md:mb-40 mb-20">
-      <p className="mt-2 text-gray-800 font-medium mb-3 text-2xl">{article.title}</p>
+      <p className="mt-2 text-gray-800 font-medium mb-3 text-xl">{article.title}</p>
 
       {article.image_url && (
         <img
@@ -53,6 +71,59 @@ function NewsDetail() {
       >
         Read full article
       </a>
+
+      {/* Related News */}
+{relatedNews.length > 0 && (
+  <div className="mt-10">
+    <h3 className="text-xl font-semibold mb-4">Related News</h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {relatedNews.map((item, idx) => (
+        <div
+          key={idx}
+          onClick={() =>
+            navigate(`/article/${encodeURIComponent(idx)}`, {
+              state: { article: item },
+            })
+          }
+          className="p-3  rounded-lg hover:shadow-md transition cursor-pointer bg-white"
+        >
+          {item.image_url ? (
+            <img
+              src={item.image_url}
+              alt={item.title}
+              className="w-full h-32 object-cover rounded mb-2"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "";
+                e.target.style.backgroundColor = "#e2e8f0";
+                e.target.style.height = "128px";
+              }}
+            />
+          ) : (
+            <div className="w-full h-32 bg-gray-200 flex items-center justify-center rounded mb-2">
+              <span className="text-gray-400">No Image</span>
+            </div>
+          )}
+
+          <p className="text-gray-800 font-medium line-clamp-2">{item.title}</p>
+
+          {item.description && (
+            <p className="text-gray-500 text-sm mt-1 line-clamp-2">
+              {item.description}
+            </p>
+          )}
+
+          {item.pubDate && (
+            <small className="text-gray-400 block mt-1">
+              {new Date(item.pubDate).toLocaleDateString()}
+            </small>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

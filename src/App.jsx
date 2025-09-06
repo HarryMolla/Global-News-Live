@@ -60,34 +60,32 @@ function App() {
   }, []);
 
   // Carousel auto-scroll and progress bar
-  useEffect(() => {
-    if (filteredNews.length === 0) return;
+useEffect(() => {
+  if (filteredNews.length === 0) return;
 
-    const intervals = filteredNews.slice(0, 6).map((_, idx) => (idx === 0 ? 1000 : idx === 1 ? 500 : 3000));
-    timerRef.current = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
-    }, intervals[activeSlide] || 3000);
+  const slideCount = Math.min(filteredNews.length, 6);
+  const slideDuration = 3000; // 3 seconds per slide
 
-    return () => clearInterval(timerRef.current);
-  }, [filteredNews, activeSlide]);
+  // Schedule next slide
+  timerRef.current = setTimeout(() => {
+    setActiveSlide((prev) => (prev + 1) % slideCount);
+  }, slideDuration);
 
-  const handlePrev = () => {
-    clearInterval(timerRef.current);
-    setActiveSlide((prev) => (prev - 1 + Math.min(filteredNews.length, 6)) % Math.min(filteredNews.length, 6));
-    const intervals = filteredNews.slice(0, 6).map((_, idx) => (idx === 0 ? 1000 : idx === 1 ? 500 : 3000));
-    timerRef.current = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
-    }, intervals[activeSlide] || 3000);
-  };
+  return () => clearTimeout(timerRef.current);
+}, [filteredNews, activeSlide]);
 
-  const handleNext = () => {
-    clearInterval(timerRef.current);
-    setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
-    const intervals = filteredNews.slice(0, 6).map((_, idx) => (idx === 0 ? 1000 : idx === 1 ? 500 : 3000));
-    timerRef.current = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
-    }, intervals[activeSlide] || 3000);
-  };
+const handlePrev = () => {
+  clearTimeout(timerRef.current);
+  const slideCount = Math.min(filteredNews.length, 6);
+  setActiveSlide((prev) => (prev - 1 + slideCount) % slideCount);
+};
+
+const handleNext = () => {
+  clearTimeout(timerRef.current);
+  const slideCount = Math.min(filteredNews.length, 6);
+  setActiveSlide((prev) => (prev + 1) % slideCount);
+};
+
 
   const handleCategoryChange = (category, triggerFetch = false) => {
     setSelectedCategory(category);
@@ -150,13 +148,12 @@ function App() {
             {filteredNews.slice(0, 6).map((_, idx) => (
               <div key={`${idx}-${activeSlide}`} className="carousel-progress-bar">
                 <div
-                  className={`carousel-progress ${idx === activeSlide ? 'active' : ''}`}
-                  style={{
-                    animationDuration: `${
-                      idx === 0 ? '1000ms' : idx === 1 ? '500ms' : '3000ms'
-                    }`,
-                  }}
-                ></div>
+  className={`carousel-progress ${idx === activeSlide ? 'active' : ''}`}
+  style={{
+    animationDuration: idx === activeSlide ? '3000ms' : '0ms', // match slideDuration
+  }}
+></div>
+
               </div>
             ))}
           </div>
