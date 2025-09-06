@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Category from "./components/Category";
-import { div } from "framer-motion/client";
-
+import './index.css';
 
 const API_KEY = "pub_fcfccf041f154b23b7096e5238008114";
 const COUNTRY = "us";
@@ -14,6 +13,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [activeSlide, setActiveSlide] = useState(0);
+  const timerRef = useRef(null);
 
   const buildUrl = (category = "", nextPage = null) => {
     if (nextPage) return nextPage;
@@ -25,22 +26,18 @@ function App() {
   const fetchNews = async (nextPage = null, category = selectedCategory) => {
     setLoading(true);
     setError(null);
-
     try {
       const url = buildUrl(category, nextPage);
       const response = await fetch(url);
       const data = await response.json();
-
       if (data.status === "error") {
-        if (data.message && data.message.toLowerCase().includes("rate limit")) {
+        if (data.message?.toLowerCase().includes("rate limit")) {
           setError("API rate limit exceeded. Please try again later.");
         } else {
           setError(data.results?.message || "Error fetching news");
         }
       } else {
-        const newNews = nextPage
-          ? [...news, ...(data.results || [])]
-          : data.results || [];
+        const newNews = nextPage ? [...news, ...(data.results || [])] : data.results || [];
         setNews(newNews);
         setFilteredNews(newNews);
         localStorage.setItem("news", JSON.stringify(newNews));
@@ -54,13 +51,43 @@ function App() {
 
   useEffect(() => {
     const cachedNews = JSON.parse(localStorage.getItem("news"));
-    if (cachedNews && cachedNews.length > 0) {
+    if (cachedNews?.length) {
       setNews(cachedNews);
       setFilteredNews(cachedNews);
     } else {
       fetchNews();
     }
   }, []);
+
+  // Carousel auto-scroll and progress bar
+  useEffect(() => {
+    if (filteredNews.length === 0) return;
+
+    const intervals = filteredNews.slice(0, 6).map((_, idx) => (idx === 0 ? 1000 : idx === 1 ? 500 : 3000));
+    timerRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
+    }, intervals[activeSlide] || 3000);
+
+    return () => clearInterval(timerRef.current);
+  }, [filteredNews, activeSlide]);
+
+  const handlePrev = () => {
+    clearInterval(timerRef.current);
+    setActiveSlide((prev) => (prev - 1 + Math.min(filteredNews.length, 6)) % Math.min(filteredNews.length, 6));
+    const intervals = filteredNews.slice(0, 6).map((_, idx) => (idx === 0 ? 1000 : idx === 1 ? 500 : 3000));
+    timerRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
+    }, intervals[activeSlide] || 3000);
+  };
+
+  const handleNext = () => {
+    clearInterval(timerRef.current);
+    setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
+    const intervals = filteredNews.slice(0, 6).map((_, idx) => (idx === 0 ? 1000 : idx === 1 ? 500 : 3000));
+    timerRef.current = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % Math.min(filteredNews.length, 6));
+    }, intervals[activeSlide] || 3000);
+  };
 
   const handleCategoryChange = (category, triggerFetch = false) => {
     setSelectedCategory(category);
@@ -69,37 +96,93 @@ function App() {
 
   const handleSearch = (query) => {
     setSearchQuery(query);
-    if (!query) {
-      setFilteredNews(news);
-    } else {
-      const filtered = news.filter((item) =>
-        item.title.toLowerCase().includes(query.toLowerCase())
+    if (!query) setFilteredNews(news);
+    else
+      setFilteredNews(
+        news.filter((item) => item.title.toLowerCase().includes(query.toLowerCase()))
       );
-      setFilteredNews(filtered);
-    }
   };
 
   return (
-    
     <div className="md:mt-15 md:ml-50 md:mr-50 mr-3 ml-3 mt-10 md:mb-50 mb-40">
+      {/* Custom Carousel */}
+      {filteredNews.length > 0 && (
+        <div className="carousel-container mb-10">
+          
+          <div
+            className="carousel-slides"
+            style={{ transform: `translateX(-${activeSlide * 100}%)` }}
+          >
+            {filteredNews.slice(0, 6).map((item, idx) => (
+              <div key={`${idx}-${activeSlide}`} className="carousel-slide">
+                <Link
+                  to={`/article/${encodeURIComponent(idx)}`}
+                  state={{ article: item }}
+                >
+                  {item.image_url ? (
+                    <img
+                      src={item.image_url}
+                      alt={item.title}
+                      className="carousel-image"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = "";
+                        e.target.className = "carousel-no-image";
+                        e.target.style.height = "400px";
+                      }}
+                    />
+                  ) : (
+                    <div className="carousel-no-image">
+                      <span className="text-gray-500">No Image</span>
+                    </div>
+                  )}
+                  <div className="carousel-caption">
+                    <h3>{item.title}</h3>
+                    <p className="mt-2 text-gray-300 line-clamp-2">{item.description}</p>
+                  </div>
+                </Link>
+                
+              </div>
+            ))}
+          </div>
+          {/* Progress Bars */}
+          <div className="carousel-progress-container">
+            {filteredNews.slice(0, 6).map((_, idx) => (
+              <div key={`${idx}-${activeSlide}`} className="carousel-progress-bar">
+                <div
+                  className={`carousel-progress ${idx === activeSlide ? 'active' : ''}`}
+                  style={{
+                    animationDuration: `${
+                      idx === 0 ? '1000ms' : idx === 1 ? '500ms' : '3000ms'
+                    }`,
+                  }}
+                ></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Category + Search */}
       <Category
         selectedCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
         searchQuery={searchQuery}
         onSearch={handleSearch}
       />
-      {filteredNews.length === 0 && loading && (
-        <p className="text-center">Loading...</p>
-      )}
+
+      {/* Loading and Errors */}
+      {filteredNews.length === 0 && loading && <p className="text-center">Loading...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
 
+      {/* News Grid */}
       <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {filteredNews.map((item, idx) => (
           <li key={idx}>
             <Link
               to={`/article/${encodeURIComponent(idx)}`}
               state={{ article: item }}
-              className="p-4 bg-white  rounded-xl flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
+              className="news-card-link p-4 bg-white rounded-xl flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
             >
               {item.image_url ? (
                 <img
@@ -118,17 +201,13 @@ function App() {
                   <span className="text-gray-400">No Image</span>
                 </div>
               )}
-
               <div className="flex-1 flex flex-col justify-between">
                 <div>
                   {item.title && (
-                    <p className="mt-2 text-gray-800 line-clamp-2 font-medium">
-                      {item.title}
-                    </p>
+                    <p className="mt-2 text-gray-800 line-clamp-2 font-medium">{item.title}</p>
                   )}
-
                   {item.category && (
-                    <div className="flex flex-wrap gap-1 mt-1 ">
+                    <div className="flex flex-wrap gap-1 mt-1">
                       {item.category.map((c) => (
                         <span
                           key={c}
@@ -140,9 +219,7 @@ function App() {
                     </div>
                   )}
                   {item.description && (
-                    <p className="mt-2 text-gray-500 line-clamp-2">
-                      {item.description}
-                    </p>
+                    <p className="mt-2 text-gray-500 line-clamp-2">{item.description}</p>
                   )}
                 </div>
                 {item.pubDate && (

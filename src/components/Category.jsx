@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const CATEGORIES = [
   "business",
@@ -15,6 +15,8 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
   const [categoryTimeout, setCategoryTimeout] = useState(null);
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [indicatorStyle, setIndicatorStyle] = useState({});
+  const btnRefs = useRef({});
 
   // Show on scroll down, hide on scroll up
   useEffect(() => {
@@ -22,10 +24,8 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
       const currentScroll = window.scrollY;
 
       if (currentScroll > lastScrollY && currentScroll > 15) {
-        
         setShowNavbar(false);
       } else if (lastScrollY - currentScroll > 15) {
-        
         setShowNavbar(true);
       }
 
@@ -48,22 +48,40 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
     setCategoryTimeout(timeout);
   };
 
+  // Move active indicator when selectedCategory changes
+  useEffect(() => {
+    const key = selectedCategory || "all";
+    const currentBtn = btnRefs.current[key];
+    if (currentBtn) {
+      setIndicatorStyle({
+        left: currentBtn.offsetLeft,
+        width: currentBtn.offsetWidth,
+        height: currentBtn.offsetHeight,
+      });
+    }
+  }, [selectedCategory]);
+
   return (
     <div
-      className={`fixed bottom-4 left-0 right-0 z-50 bg-white/70 border border-white backdrop-blur-sm p-4 rounded-2xl shadow-2xl mx-5
+      className={`fixed bottom-4 left-0 right-0 z-50 bg-white/70 border-2 border-white/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl mx-5
                 md:left-1/2 md:transform md:-translate-x-1/2 md:w-max ${
         showNavbar ? "translate-y-50" : "-translate-y-0"
       }`}
     >
       {/* Category Buttons */}
       <div className="overflow-x-auto scrollbar-hide relative mask-fade md:mask-none">
-        <div className="inline-flex gap-2 min-w-max md:min-w-0 md:justify-center md:w-full md:flex-wrap">
+        <div className="inline-flex gap-0 min-w-max md:min-w-0 md:justify-center md:w-full md:flex-wrap relative">
+          {/* Moving Background Highlight */}
+          <span
+            className="absolute bg-blue-500 rounded-full shadow transition-all duration-600"
+            style={indicatorStyle}
+          ></span>
+
           <button
-            className={`px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 ml-3 ${
-              selectedCategory === ""
-                ? "bg-blue-500 text-white shadow"
-                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            } transition`}
+            ref={(el) => (btnRefs.current["all"] = el)}
+            className={`relative px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 ml-3 transition ${
+              selectedCategory === "" ? "text-white" : "text-gray-700"
+            }`}
             onClick={() => handleCategoryClick("")}
           >
             All
@@ -71,11 +89,10 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
-              className={`px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 ${
-                selectedCategory === cat
-                  ? "bg-blue-500 text-white shadow"
-                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-              } transition`}
+              ref={(el) => (btnRefs.current[cat] = el)}
+              className={`relative px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 transition ${
+                selectedCategory === cat ? "text-white" : "text-gray-700"
+              }`}
               onClick={() => handleCategoryClick(cat)}
             >
               {cat.charAt(0).toUpperCase() + cat.slice(1)}

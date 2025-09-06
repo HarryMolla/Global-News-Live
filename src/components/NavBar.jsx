@@ -1,11 +1,9 @@
-import { img } from "framer-motion/client";
 import React, { useState, useEffect } from "react";
 import logo from "../assets/Global News live logo.svg";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuItems = ["About Me", "How I Made It", "Contact"];
-
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -14,10 +12,8 @@ export default function Navbar() {
       const currentScroll = window.scrollY;
 
       if (currentScroll > lastScrollY && currentScroll > 15) {
-        
         setShowNavbar(false);
       } else if (lastScrollY - currentScroll > 15) {
-        
         setShowNavbar(true);
       }
 
@@ -30,14 +26,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className={` bg-white/70 border-1 mx-auto border-white backdrop-blur-sm  z-50  ml-5 mr-5  md:ml-70 md:mr-70 mt-5  rounded-2xl shadow-blue-100 sticky  top-0 ${
+      className={`bg-white/70 border-1 mx-auto border-white backdrop-blur-sm z-50 ml-5 mr-5 md:ml-70 md:mr-70 mt-5 rounded-2xl shadow-blue-100 sticky top-0 ${
         showNavbar ? "translate-y-5" : "-translate-y-full"
       }`}
     >
-      {/* Mobile Top Bar */}
       <div className="flex items-center justify-between px-4 py-3 sm:hidden">
         <div className="flex items-center space-x-2">
-          <a href="/">
+          <a href="/" className="navbar-link no-underline">
             <img
               src={logo}
               alt="Global News"
@@ -68,12 +63,9 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
       {isMenuOpen && (
         <div className="fixed inset-0 z-50 flex bg-white h-full w-full">
-          {/* Drawer Menu */}
-          <div className=" bg-white h-full backdrop-blur-xs w-full p-10 flex flex-col z-10 relative ml-auto ">
-            {/* Close button */}
+          <div className="bg-white h-full backdrop-blur-xs w-full p-10 flex flex-col z-10 relative ml-auto">
             <button
               onClick={() => setIsMenuOpen(false)}
               className="self-end text-gray-700 focus:outline-none"
@@ -98,9 +90,7 @@ export default function Navbar() {
               <a
                 key={index}
                 href="#"
-                className={`block py-3 px-2 rounded text-lg font-medium hover:to-blue-500
-                    
-                } hover:bg-gray-100`}
+                className="navbar-link block py-3 px-2 rounded text-lg font-medium text-gray-800 hover:text-blue-500 hover:bg-gray-100 no-underline hover:underline"
               >
                 {item}
               </a>
@@ -109,10 +99,9 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Desktop Menu */}
-      <div className="hidden sm:flex items-center justify-between px-6 py-4 ">
+      <div className="hidden sm:flex items-center justify-between px-6 py-4">
         <div className="flex items-center space-x-2">
-          <a href="/">
+          <a href="/" className="navbar-link no-underline">
             <img
               src={logo}
               alt="Global News"
@@ -121,14 +110,23 @@ export default function Navbar() {
           </a>
         </div>
         <div className="flex items-center space-x-6">
-          <a href="#" className="text-gray-800  hover:text-blue-500">
+          <a
+            href="#"
+            className="navbar-link text-gray-800 hover:text-blue-500 no-underline hover:underline"
+          >
             About Me
           </a>
-          <a href="#" className="text-gray-800  hover:text-blue-500">
+          <a
+            href="#"
+            className="navbar-link text-gray-800 hover:text-blue-500 no-underline hover:underline"
+          >
             How I Made It
           </a>
-          <a href="#" className="text-gray-800  hover:text-blue-500">
-            contact
+          <a
+            href="#"
+            className="navbar-link text-gray-800 hover:text-blue-500 no-underline hover:underline"
+          >
+            Contact
           </a>
         </div>
         <div className="flex items-center space-x-2">bvb</div>

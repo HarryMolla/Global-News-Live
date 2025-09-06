@@ -1,5 +1,4 @@
 @import "tailwindcss";
-/* globals.css or tailwind.css */
 
 /* Hide scrollbar for all browsers */
 .scrollbar-hide {
@@ -27,3 +26,131 @@
   }
 }
 
+/* Custom carousel styles */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem; /* rounded-lg */
+}
+
+.carousel-slides {
+  display: flex;
+  width: 100%;
+  height: 400px;
+  transition: transform 0.5s ease-in-out; /* Smooth sliding */
+}
+
+.carousel-slide {
+  flex: 0 0 100%; /* Each slide takes full width */
+  width: 100%;
+  height: 400px;
+  position: relative; /* For caption positioning */
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.carousel-no-image {
+  width: 100%;
+  height: 100%;
+  background-color: #e2e8f0; /* bg-gray-200 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 20px; /* mobile */
+  left: 20px;   /* mobile */
+  right: 20px;  /* mobile */
+  background-color: rgba(6, 15, 38, 0.756); /* blue-500 at 90% opacity */
+  backdrop-filter: blur(5px);
+  color: #ffffff; /* text-white */
+  padding: 20px; /* p-4 */
+  border-radius: 0.55rem; /* rounded */
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .carousel-caption {
+    bottom: 40px; /* desktop */
+    left: 40px;
+    right: 40px;
+  }
+}
+
+
+.carousel-caption h3 {
+  font-size: 1.125rem; /* text-lg */
+  font-weight: 600; /* font-semibold */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  
+}
+.carousel-caption p {
+  font-size: 0.875rem; /* text-sm */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  .carousel-caption h3 {
+    font-size: 1.25rem; /* md:text-xl */
+  }
+  .carousel-caption p {
+    font-size: 1rem; /* md:text-base */
+  }
+}
+
+/* Progress bar styles */
+.carousel-progress-container {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem; /* gap-2 */
+  width: 50%; /* Adjust width as needed */
+  z-index: 10; /* Ensure above slides */
+}
+@media (min-width: 768px) { /* md breakpoint */
+  .carousel-progress-container {
+    bottom: 15px; /* desktop */
+  }
+}
+
+
+.carousel-progress-bar {
+  height: 0.5rem; /* h-2 */
+  background-color: rgba(255, 255, 255, 0.653); /* Semi-transparent for contrast */
+  backdrop-filter: blur(5px);
+  border-radius: 0.25rem; /* rounded */
+  overflow: hidden;
+  flex: 1;
+}
+
+.carousel-progress {
+  height: 100%;
+  background-color: #3b82f6; /* bg-blue-500 */
+  width: 0;
+  transition: none; /* Controlled by animation */
+}
+
+.carousel-progress.active {
+  animation: progress linear forwards;
+}
+
+@keyframes progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
