@@ -140,6 +140,8 @@ export default function Navbar() {
           <div
             className="absolute inset-0 bg-black/40 transition-opacity duration-300"
             onClick={() => setIsMenuOpen(false)}
+            onTouchMove={() => setIsMenuOpen(false)}
+  onMouseMove={() => setIsMenuOpen(false)}
           />
           <div className="relative w-full h-1.5/5 bg-white rounded-t-2xl shadow-lg p-6 transition-transform duration-200">
             {/* Menu Items */}
