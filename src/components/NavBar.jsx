@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import logo from "../assets/Global News live logo.svg";
-import { FaSun, FaMoon, FaBars, FaTimes, FaGripLines } from "react-icons/fa";
+import { FaSun, FaMoon, FaBars} from "react-icons/fa";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,35 +8,6 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [darkMode, setDarkMode] = useState(false);
-
-  const [drawerY, setDrawerY] = useState(0);
-  const dragStartRef = useRef(0);
-
-  const startDrag = (e) => {
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    dragStartRef.current = clientY;
-
-    const move = (ev) => {
-      const currentY = ev.touches ? ev.touches[0].clientY : ev.clientY;
-      const diff = currentY - dragStartRef.current;
-      if (diff > 0) setDrawerY(diff);
-    };
-
-    const end = () => {
-      if (drawerY > 100) setIsMenuOpen(false); // close drawer if dragged enough
-      setDrawerY(0);
-
-      window.removeEventListener("mousemove", move);
-      window.removeEventListener("mouseup", end);
-      window.removeEventListener("touchmove", move);
-      window.removeEventListener("touchend", end);
-    };
-
-    window.addEventListener("mousemove", move);
-    window.addEventListener("mouseup", end);
-    window.addEventListener("touchmove", move);
-    window.addEventListener("touchend", end);
-  };
 
   const toggleTheme = () => {
     setDarkMode(!darkMode);
@@ -63,7 +34,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`bg-white/70 border-1 mx-auto border-white backdrop-blur-sm z-50 ml-5 mr-5 md:ml-70 md:mr-70 mt-5 rounded-2xl shadow-blue-100 sticky top-0 ${
+        className={`bg-white/90 border-1 mx-auto border-white backdrop-blur-md z-50 ml-3 mr-3 md:ml-70 md:mr-70 mt-5 rounded-2xl  sticky top-0 ${
           showNavbar ? "translate-y-5" : "-translate-y-full"
         }`}
       >
@@ -75,7 +46,7 @@ export default function Navbar() {
               <img
                 src={logo}
                 alt="Global News"
-                className="h-8 w-auto md:h-10 lg:h-12"
+                className="h-8 w-auto md:h-10 lg:h-12 "
               />
             </a>
           </div>
@@ -132,7 +103,7 @@ export default function Navbar() {
               <a
                 key={index}
                 href="#"
-                className="hover:bg-blue-100 navbar-link text-gray-800 hover:text-blue-500 px-4 py-1 rounded-md"
+                className="hover:bg-blue-100 navbar-link text-gray-500 hover:text-blue-500 px-4 py-1 rounded-md font-medium"
               >
                 {item}
               </a>
@@ -170,21 +141,9 @@ export default function Navbar() {
             className="absolute inset-0 bg-black/40 transition-opacity duration-300"
             onClick={() => setIsMenuOpen(false)}
           />
-
-          {/* Draggable Bottom Drawer */}
-          <div
-            className="relative w-full h-1.5/5 bg-white rounded-t-2xl shadow-lg p-4 transition-transform duration-200"
-            style={{ transform: `translateY(${drawerY}px)` }}
-            onMouseDown={startDrag}
-            onTouchStart={startDrag}
-          >
-            {/* Drag handle */}
-            <div className="flex justify-center mb-4">
-              <div className="w-12 h-1 bg-gray-200 rounded-full"></div>
-            </div>
-
+          <div className="relative w-full h-1.5/5 bg-white rounded-t-2xl shadow-lg p-6 transition-transform duration-200">
             {/* Menu Items */}
-            <div className="flex flex-col mt-4 gap-2 text-center">
+            <div className="flex flex-col gap-2 text-center">
               {menuItems.map((item, index) => (
                 <a
                   key={index}

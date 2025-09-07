@@ -63,7 +63,7 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
 
   return (
     <div
-      className={`fixed bottom-4 left-0 right-0 z-50 bg-white/70 border-2 border-white/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl mx-5
+      className={`fixed mr-3 ml-3 bottom-4 left-0 right-0 z-50 bg-white/70 border-2 border-white/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl mx-5
                 md:left-1/2 md:transform md:-translate-x-1/2 md:w-max ${
         showNavbar ? "translate-y-50" : "-translate-y-0"
       }`}
