@@ -1,6 +1,6 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../assets/Global News live logo.svg";
-import { FaSun, FaMoon, FaBars} from "react-icons/fa";
+import { FaSun, FaMoon, FaBars } from "react-icons/fa";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -141,7 +141,7 @@ export default function Navbar() {
             className="absolute inset-0 bg-black/40 transition-opacity duration-300"
             onClick={() => setIsMenuOpen(false)}
             onTouchMove={() => setIsMenuOpen(false)}
-  onMouseMove={() => setIsMenuOpen(false)}
+            onMouseMove={() => setIsMenuOpen(false)}
           />
           <div className="relative w-full h-1.5/5 bg-white rounded-t-2xl shadow-lg p-6 transition-transform duration-200">
             {/* Menu Items */}
