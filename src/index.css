@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+@keyframes slide-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
+}
+
+/* Optional: add a little drag handle hover effect */
+.drawer:hover .cursor-grab {
+  background-color: rgba(0,0,0,0.05);
+}
+
+
 /* Hide scrollbar for all browsers */
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE & Edge */
