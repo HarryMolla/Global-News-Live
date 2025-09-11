@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import logo from "../assets/Global News live logo.svg";
 import { FaSun, FaMoon, FaBars } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -99,15 +100,19 @@ export default function Navbar() {
             </a>
           </div>
           <div className="flex items-center space-x-2">
-            {menuItems.map((item, index) => (
-              <a
-                key={index}
-                href="#"
+            <Link
+                to="/HowIBuiltThis"
                 className="hover:bg-blue-100 navbar-link text-gray-500 hover:text-blue-500 px-4 py-1 rounded-md font-medium"
               >
-                {item}
-              </a>
-            ))}
+                How I Built This
+              </Link>
+
+              <Link
+                to="/LetsConnect"
+                className="hover:bg-blue-100 navbar-link text-gray-500 hover:text-blue-500 px-4 py-1 rounded-md font-medium"
+              >
+                Let’s Connect
+              </Link>
           </div>
 
           {/* Theme Toggle (desktop) */}
@@ -146,15 +151,21 @@ export default function Navbar() {
           <div className="relative w-full h-1.5/5 bg-white rounded-t-2xl shadow-lg p-6 transition-transform duration-200">
             {/* Menu Items */}
             <div className="flex flex-col gap-2 text-center">
-              {menuItems.map((item, index) => (
-                <a
-                  key={index}
-                  href="#"
-                  className=" block py-3 px-2 text-lg font-medium text-blue-500 bg-blue-50 rounded-2xl "
-                >
-                  {item}
-                </a>
-              ))}
+              
+                <Link
+                to="/HowIBuiltThis"
+                className="block py-3 px-2 text-lg font-medium text-blue-500 bg-blue-50 rounded-2xl"
+              >
+                How I Built This
+              </Link>
+
+              <Link
+                to="/LetsConnect"
+                className="block py-3 px-2 text-lg font-medium text-blue-500 bg-blue-50 rounded-2xl"
+              >
+                Let’s Connect
+              </Link>
+              
             </div>
           </div>
         </div>
