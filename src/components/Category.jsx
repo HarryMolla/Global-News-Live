@@ -21,26 +21,28 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
 
   // Detect keyboard via input focus/blur events
   useEffect(() => {
-    const input = document.querySelector("input[type='text']");
-    if (!input) return;
+  const handleScroll = () => {
+    // Force navbar visible if keyboard is open / input is focused
+    if (document.activeElement.tagName === "INPUT" || isKeyboardOpen) {
+      setShowNavbar(true);
+      return;
+    }
 
-    const handleFocus = () => {
-      setIsKeyboardOpen(true);
-      setShowNavbar(true); // force navbar visible
-    };
+    const currentScroll = window.scrollY;
 
-    const handleBlur = () => {
-      setIsKeyboardOpen(false);
-    };
+    if (currentScroll > lastScrollY && currentScroll > 5) {
+      setShowNavbar(false); // hide on scroll down
+    } else if (lastScrollY - currentScroll > 5) {
+      setShowNavbar(true); // show on scroll up
+    }
 
-    input.addEventListener("focus", handleFocus);
-    input.addEventListener("blur", handleBlur);
+    setLastScrollY(currentScroll);
+  };
 
-    return () => {
-      input.removeEventListener("focus", handleFocus);
-      input.removeEventListener("blur", handleBlur);
-    };
-  }, []);
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [lastScrollY, isKeyboardOpen]);
+
 
   // Show on scroll down, hide on scroll up
   useEffect(() => {
