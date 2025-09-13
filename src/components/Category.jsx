@@ -21,34 +21,32 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
 
   // Detect keyboard via input focus/blur events
   useEffect(() => {
-  const handleScroll = () => {
-    // Force navbar visible if keyboard is open / input is focused
-    if (document.activeElement.tagName === "INPUT" || isKeyboardOpen) {
-      setShowNavbar(true);
-      return;
-    }
+    const input = document.querySelector("input[type='text']");
+    if (!input) return;
 
-    const currentScroll = window.scrollY;
+    const handleFocus = () => {
+      setIsKeyboardOpen(true);
+      setShowNavbar(true); // immediately show navbar
+    };
 
-    if (currentScroll > lastScrollY && currentScroll > 5) {
-      setShowNavbar(false); // hide on scroll down
-    } else if (lastScrollY - currentScroll > 5) {
-      setShowNavbar(true); // show on scroll up
-    }
+    const handleBlur = () => {
+      setIsKeyboardOpen(false);
+    };
 
-    setLastScrollY(currentScroll);
-  };
+    input.addEventListener("focus", handleFocus);
+    input.addEventListener("blur", handleBlur);
 
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [lastScrollY, isKeyboardOpen]);
+    return () => {
+      input.removeEventListener("focus", handleFocus);
+      input.removeEventListener("blur", handleBlur);
+    };
+  }, []);
 
-
-  // Show on scroll down, hide on scroll up
+  // Show/hide on scroll
   useEffect(() => {
     const handleScroll = () => {
-      // Prevent hiding only if input is focused (keyboard open)
-      if (document.activeElement.tagName === "INPUT" || isKeyboardOpen) {
+      // Ignore hiding while keyboard is open
+      if (isKeyboardOpen) {
         setShowNavbar(true);
         return;
       }
@@ -56,9 +54,9 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
       const currentScroll = window.scrollY;
 
       if (currentScroll > lastScrollY && currentScroll > 5) {
-        setShowNavbar(true); // hide on scroll down
+        setShowNavbar(false); // hide on scroll down
       } else if (lastScrollY - currentScroll > 5) {
-        setShowNavbar(false); // show on scroll up
+        setShowNavbar(true); // show on scroll up
       }
 
       setLastScrollY(currentScroll);
@@ -97,8 +95,8 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
     <div
       className={`fixed mr-3 ml-3 bottom-4 left-0 right-0 z-50 bg-white/70 dark:bg-gray-500/20 border-2 border-white/0 dark:border dark:border-white/20 backdrop-blur-xl p-4 rounded-2xl shadow-2xl mx-5 dark:shadow-gray-500/20
                 md:left-1/2 md:transform md:-translate-x-1/2 md:w-max transition-transform duration-300 ${
-        showNavbar ? "translate-y-0" : "translate-y-full"
-      }`}
+                  showNavbar ? "translate-y-0" : "translate-y-full"
+                }`}
     >
       {/* Category Buttons */}
       <div className="overflow-x-auto scrollbar-hide relative mask-fade md:mask-none">
