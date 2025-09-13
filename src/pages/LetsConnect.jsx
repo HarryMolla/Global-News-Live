@@ -52,7 +52,7 @@ export default function CallToAction() {
           <ArrowDown className="h-5 w-5" />
         </button>
       </div>
-      <div className="flex items-center justify-center ">
+      <div className="flex items-center justify-center mb-30 ">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
