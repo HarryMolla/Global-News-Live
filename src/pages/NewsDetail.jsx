@@ -55,7 +55,7 @@ function NewsDetail() {
 
   return (
     <div className="p-4 max-w-4xl mx-auto md:mt-10 mt-5 md:mb-50 mb-20">
-      <p className="mt-2 text-gray-800 font-medium mb-3 text-xl">{article.title}</p>
+      <p className="mt-2 text-gray-800 dark:text-white font-medium mb-3 text-xl">{article.title}</p>
 
       {article.image_url && (
         <img
@@ -102,7 +102,7 @@ function NewsDetail() {
                   localStorage.setItem("currentArticle", JSON.stringify(item));
                   navigate(`/article/${item.id}`, { state: { article: item } });
                 }}
-                className="p-3 rounded-lg hover:shadow-md transition cursor-pointer bg-white"
+                className="p-3 rounded-lg hover:shadow-md transition cursor-pointer bg-white dark:bg-gray-300/3"
               >
                 {item.image_url ? (
                   <img
@@ -122,10 +122,10 @@ function NewsDetail() {
                   </div>
                 )}
 
-                <p className="text-gray-800 font-medium line-clamp-2">{item.title}</p>
+                <p className="text-gray-800 dark:text-white font-medium line-clamp-2">{item.title}</p>
 
                 {item.description && (
-                  <p className="text-gray-500 text-sm mt-1 line-clamp-2">{item.description}</p>
+                  <p className="text-gray-500 dark:text-gray-300 text-sm mt-1 line-clamp-2">{item.description}</p>
                 )}
 
                 {item.pubDate && (
