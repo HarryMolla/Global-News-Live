@@ -61,7 +61,7 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="p-4 transition duration-300 dark:bg-gray-600 dark:text-gray-300 text-gray-500 bg-gray-100 rounded-full relative overflow-hidden flex items-center justify-center"
+              className="p-4 transition duration-300 dark:bg-gray-600/50 dark:text-gray-300 text-gray-500 bg-gray-100/50 rounded-full relative overflow-hidden flex items-center justify-center"
             >
               <FaMoon
                 className={`absolute transition-all duration-500 transform ${
@@ -84,7 +84,7 @@ export default function Navbar() {
             {/* Hamburger */}
             <button
               onClick={() => setIsMenuOpen(true)}
-              className="text-gray-700 focus:outline-none"
+              className="focus:outline-none dark:bg-gray-600/50 dark:text-gray-300 text-gray-500 bg-gray-100/50 p-1 rounded-sm"
               aria-label="Open menu"
             >
               <FaBars size={20} />
