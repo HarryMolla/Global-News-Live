@@ -19,26 +19,33 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const btnRefs = useRef({});
 
-  // Detect keyboard open by comparing window.innerHeight
+  // Detect keyboard via input focus/blur events
   useEffect(() => {
-    let initialHeight = window.innerHeight;
+    const input = document.querySelector("input[type='text']");
+    if (!input) return;
 
-    const handleResize = () => {
-      const keyboardVisible = window.innerHeight < initialHeight - 150; // threshold
-      setIsKeyboardOpen(keyboardVisible);
-      if (keyboardVisible) {
-        setShowNavbar(true); // force visible when keyboard is open
-      }
+    const handleFocus = () => {
+      setIsKeyboardOpen(true);
+      setShowNavbar(true); // force navbar visible
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const handleBlur = () => {
+      setIsKeyboardOpen(false);
+    };
+
+    input.addEventListener("focus", handleFocus);
+    input.addEventListener("blur", handleBlur);
+
+    return () => {
+      input.removeEventListener("focus", handleFocus);
+      input.removeEventListener("blur", handleBlur);
+    };
   }, []);
 
   // Show on scroll down, hide on scroll up
   useEffect(() => {
     const handleScroll = () => {
-      // Don’t hide if input focused or keyboard open
+      // Prevent hiding only if input is focused (keyboard open)
       if (document.activeElement.tagName === "INPUT" || isKeyboardOpen) {
         setShowNavbar(true);
         return;
@@ -47,9 +54,9 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
       const currentScroll = window.scrollY;
 
       if (currentScroll > lastScrollY && currentScroll > 5) {
-        setShowNavbar(false);
+        setShowNavbar(true); // hide on scroll down
       } else if (lastScrollY - currentScroll > 5) {
-        setShowNavbar(true);
+        setShowNavbar(false); // show on scroll up
       }
 
       setLastScrollY(currentScroll);
