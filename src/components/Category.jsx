@@ -63,7 +63,7 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
 
   return (
     <div
-      className={`fixed mr-3 ml-3 bottom-4 left-0 right-0 z-50 bg-white/70 border-2 border-white/50 backdrop-blur-md p-4 rounded-2xl shadow-2xl mx-5
+      className={`fixed mr-3 ml-3 bottom-4 left-0 right-0 z-50 bg-white/70 dark:bg-gray-500/20 border-2 border-white/0 dark:bo dark:border dark:border-white/20 backdrop-blur-xl p-4 rounded-2xl shadow-2xl mx-5 dark:shadow-gray-500/20
                 md:left-1/2 md:transform md:-translate-x-1/2 md:w-max ${
         showNavbar ? "translate-y-50" : "-translate-y-0"
       }`}
@@ -80,7 +80,7 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
           <button
             ref={(el) => (btnRefs.current["all"] = el)}
             className={`relative px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 ml-3 transition ${
-              selectedCategory === "" ? "text-white" : "text-gray-700"
+              selectedCategory === "" ? "text-white" : "text-gray-700 dark:text-gray-400"
             }`}
             onClick={() => handleCategoryClick("")}
           >
@@ -91,7 +91,7 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
               key={cat}
               ref={(el) => (btnRefs.current[cat] = el)}
               className={`relative px-3 py-1.5 text-sm md:px-4 md:py-2 md:text-base rounded-full font-medium flex-shrink-0 transition ${
-                selectedCategory === cat ? "text-white" : "text-gray-700"
+                selectedCategory === cat ? "text-white" : "text-gray-700 dark:text-gray-400"
               }`}
               onClick={() => handleCategoryClick(cat)}
             >
@@ -109,7 +109,7 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
             value={searchQuery}
             onChange={(e) => onSearch(e.target.value)}
             placeholder="Search..."
-            className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
+            className="w-full px-4 py-2 pr-10 border border-gray-300 dark:border-gray-500 rounded-lg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400"
           />
           <span className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 cursor-pointer hover:text-blue-500">
             <svg

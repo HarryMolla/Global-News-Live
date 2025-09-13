@@ -22,7 +22,6 @@ function App() {
     if (category) url += `&category=${category}`;
     return url;
   };
-
   const fetchNews = async (nextPage = null, category = selectedCategory) => {
     setLoading(true);
     setError(null);
@@ -150,7 +149,7 @@ const handleNext = () => {
                 <div
   className={`carousel-progress ${idx === activeSlide ? 'active' : ''}`}
   style={{
-    animationDuration: idx === activeSlide ? '3000ms' : '0ms', // match slideDuration
+    animationDuration: idx === activeSlide ? '3000ms' : '0ms', 
   }}
 ></div>
 
@@ -179,7 +178,7 @@ const handleNext = () => {
             <Link
               to={`/article/${encodeURIComponent(idx)}`}
               state={{ article: item }}
-              className="news-card-link p-4 bg-white rounded-xl flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
+              className="news-card-link p-4 bg-white dark:bg-gray-300/3 rounded-xl flex flex-col hover:shadow-lg transition duration-300 ease-in-out cursor-pointer"
             >
               {item.image_url ? (
                 <img
@@ -201,7 +200,7 @@ const handleNext = () => {
               <div className="flex-1 flex flex-col justify-between">
                 <div>
                   {item.title && (
-                    <p className="mt-2 text-gray-800 line-clamp-2 font-medium">{item.title}</p>
+                    <p className="mt-2 text-gray-800 dark:text-white  line-clamp-2 font-medium">{item.title}</p>
                   )}
                   {item.category && (
                     <div className="flex flex-wrap gap-1 mt-1">
@@ -216,7 +215,7 @@ const handleNext = () => {
                     </div>
                   )}
                   {item.description && (
-                    <p className="mt-2 text-gray-500 line-clamp-2">{item.description}</p>
+                    <p className="mt-2 text-gray-500 dark:text-gray-300 line-clamp-2">{item.description}</p>
                   )}
                 </div>
                 {item.pubDate && (

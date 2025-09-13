@@ -2,7 +2,7 @@ import { Ripple } from "@/components/ui/shadcn-io/ripple";
 import { GradientText } from "@/components/ui/shadcn-io/gradient-text";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, Info } from "lucide-react";
+import { Mail, Phone, Info, ArrowBigDown, ArrowBigDownDashIcon, ArrowDown, ArrowDown01Icon, ArrowDownCircle, ArrowDownFromLine, ArrowDownLeft, ArrowDownIcon } from "lucide-react";
 import image from "../assets/Harry.png";
 
 export default function CallToAction() {
@@ -44,7 +44,15 @@ export default function CallToAction() {
           gradient="linear-gradient(90deg, #00ff00 0%, #00ffff 25%, #ff00ff 50%, #00ffff 75%, #00ff00 100%)"
         />
       </div>
-      <div className="flex items-center justify-center mt-5">
+      <div className="flex justify-center md:mt-0 mt-5">
+        <button
+          size="sm"
+          className="text-white/60 hover:text-white/80 hover:bg-white/10 text-center animate-bounce p-2 rounded-2xl"
+        >
+          <ArrowDown className="h-5 w-5" />
+        </button>
+      </div>
+      <div className="flex items-center justify-center ">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -55,7 +63,7 @@ export default function CallToAction() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5 }}
-            className=" font-semibold text-gray-500 text-center"
+            className=" font-semibold text-gray-500 text-center -mb-2"
           >
             Let's Connect
           </motion.h2>
@@ -63,7 +71,7 @@ export default function CallToAction() {
           <div className="grid gap-2 w-full">
             <button
               onClick={handleEmailMe}
-              className="border-2 border-blue-500 bg-blue-100 text-blue-500 hover:text-white py-3 rounded-md font-semibold transition-colors duration-300 hover:bg-blue-500 hover:shadow-lg flex-1 flex items-center justify-center gap-2"
+              className="border-2 border-blue-500 dark:border-gray-500/20 dark:bg-blue-100/10 dark:text-blue-50 bg-blue-100 text-blue-500 hover:text-white py-3 rounded-md font-semibold transition-colors duration-300 hover:bg-blue-500 dark:hover:bg-gray-500/50 hover:shadow-lg flex-1 flex items-center justify-center gap-2"
             >
               <Mail size={20} />
               Email Me
@@ -71,7 +79,7 @@ export default function CallToAction() {
 
             <button
               onClick={handleCallMe}
-              className="border-2 border-blue-500 bg-blue-100 text-blue-500 hover:text-white py-3 rounded-md font-semibold transition-colors duration-300 hover:bg-blue-500 hover:shadow-lg flex-1 flex items-center justify-center gap-2"
+              className="border-2 border-blue-500 dark:border-gray-500/20 dark:bg-blue-100/10 dark:text-blue-50 bg-blue-100 text-blue-500 hover:text-white py-3 rounded-md font-semibold transition-colors duration-300 hover:bg-blue-500 dark:hover:bg-gray-500/50 hover:shadow-lg flex-1 flex items-center justify-center gap-2"
             >
               <Phone size={20} />
               Call Me
