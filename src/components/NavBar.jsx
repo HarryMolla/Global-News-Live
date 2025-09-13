@@ -157,7 +157,7 @@ export default function Navbar() {
         </div>
       </nav>
       {isMenuOpen && (
-        <div className="fixed inset-0 z-50 flex items-end">
+        <div className="fixed inset-0 zoom-in-60 flex items-end">
           {/* Background overlay */}
           <div
             className="absolute inset-0 bg-black/50 transition-opacity duration-300"
@@ -173,27 +173,28 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
                 className={({ isActive }) =>
                   `px-4 py-4 rounded-2xl font-medium navbar-link 
-    ${
-      isActive
-        ? "text-gray-500/80 dark:text-gray-300/50 bg-blue-100/10 dark:bg-gray-700/20"
-        : "text-blue-600 dark:text-blue-400 bg-blue-100/50 dark:bg-gray-700"
-    }`
-                }
-              >
-                How I Built This
-              </NavLink>
+                        ${
+                          isActive
+                            ? "text-gray-500/80 dark:text-gray-300/50 bg-blue-100/10 dark:bg-gray-700/20"
+                            : "text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-gray-100/20"
+                        }`
+                                    }
+                                  >
+                                    How I Built This
+                                  </NavLink>
 
-              <NavLink
-                to="/LetsConnect"
-                onClick={() => setIsMenuOpen(false)}
-                 className={({ isActive }) =>
-                `px-4 py-4 rounded-2xl font-medium navbar-link 
-    ${
-      isActive
-        ? "text-gray-500/80 dark:text-gray-300/50 bg-blue-100/10 dark:bg-gray-700/20"
-        : "text-blue-600 dark:text-blue-400 bg-blue-100/50 dark:bg-gray-700"
-    }`
-              }>
+                                  <NavLink
+                                    to="/LetsConnect"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className={({ isActive }) =>
+                                      `px-4 py-4 rounded-2xl font-medium navbar-link 
+                        ${
+                          isActive
+                            ? "text-gray-500/80 dark:text-gray-300/50 bg-blue-100/10 dark:bg-gray-700/20"
+                            : "text-blue-600 dark:text-blue-400 bg-blue-100/50 dark:bg-gray-100/20"
+                        }`
+                                    }
+                                  >
                 Let’s Connect
               </NavLink>
             </div>
