@@ -193,9 +193,16 @@ const HowIBuiltThis = () => {
             </p>
             <p className="text-lg mb-12 text-white/80 m-0 mr-5 ml-5">
               I used the free{" "}
-              <span className="font-semibold text-white">Newsdata.io API</span>{" "}
-              to power this project. The news you see here is live and real —
-              not demo data.
+              <a
+                href="https://newsdata.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-white hover:text-blue-400"
+              >
+                Newsdata.io API
+              </a>
+              {"   "}to power this project. The news you see here is live and
+              real — not demo data.
             </p>
             <div className="flex justify-center gap-4">
               <Button
@@ -232,7 +239,7 @@ const HowIBuiltThis = () => {
           <FeatureCard
             icon={TrendingDown}
             title="Duplicate Content"
-            description="Sometimes, after 5 unique news items, the rest are just duplicates."
+            description="Sometimes, news images and descriptions are not included, and when descriptions are present, they are very short."
           />
           <FeatureCard
             icon={AlertTriangle}
@@ -384,29 +391,29 @@ const HowIBuiltThis = () => {
         </div>
       </section>
       <div className="md:m-10 m-3 overflow-hidden flex justify-center">
-  <WavyBackground
-    backgroundFill="black"
-    colors={["#4a90e2", "#45b7d1", "#4ecdc4", "#5f27cd", "#1dd1a1"]}
-    waveWidth={40}
-    blur={10}
-    speed="slow"
-    waveOpacity={0.6}
-    containerClassName="h-[350px] w-full rounded-lg border overflow-hidden"
-    className="w-full"
-  >
-    <div className="text-center">
-      <h3 className="text-2xl font-bold text-white mb-2">
-        Future Vision
-      </h3>
-      <p className="text-gray-200 mx-3">
-        These enhancements will create a truly scalable news platform
-        that can handle thousands of users while maintaining real-time
-        updates and optimal performance.
-      </p>
-    </div>
-  </WavyBackground>
-</div>
-
+        <WavyBackground
+          backgroundFill="black"
+          colors={["#4a90e2", "#45b7d1", "#4ecdc4", "#5f27cd", "#1dd1a1"]}
+          waveWidth={10}
+          blur={15}
+          speed="slow"
+          waveOpacity={0.6}
+          containerClassName="h-[350px] w-full rounded-lg border overflow-hidden"
+          className="w-full"
+        >
+          <div className="text-center">
+            <h3 className="text-2xl font-black text-white mb-4">
+              Future Vision
+            </h3>
+            <p className="text-gray-200 md:mx-30 mx-3 font-normal">
+              I'm planning to collect all Ethiopian news through a Telegram channel using a bot, 
+              store the data in a database, and then build an API using Go or Node.js. 
+              Later, I will enhance the API to provide more localized content and filtering options based on
+               categories, regions, or user preferences.
+            </p>
+          </div>
+        </WavyBackground>
+      </div>
     </div>
   );
 };
