@@ -23,9 +23,9 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
 
-      if (currentScroll > lastScrollY && currentScroll > 15) {
+      if (currentScroll > lastScrollY && currentScroll > 5) {
         setShowNavbar(false);
-      } else if (lastScrollY - currentScroll > 15) {
+      } else if (lastScrollY - currentScroll > 5) {
         setShowNavbar(true);
       }
 
