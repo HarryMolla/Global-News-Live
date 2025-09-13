@@ -157,7 +157,7 @@ export default function Navbar() {
         </div>
       </nav>
       {isMenuOpen && (
-        <div className="fixed inset-0 zoom-in-60 flex items-end">
+        <div className="fixed inset-0 z-[9999] zoom-in-60 flex items-end">
           {/* Background overlay */}
           <div
             className="absolute inset-0 bg-black/50 transition-opacity duration-300"
