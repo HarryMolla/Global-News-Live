@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Category from "./components/Category";
 import "./index.css";
 import { MdOutlineSentimentDissatisfied } from "react-icons/md";
@@ -15,21 +15,28 @@ const CATEGORIES = [
   "technology",
 ];
 
+// Shuffle helper
+const shuffleArray = (array) => {
+  return array
+    .map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+};
+
 function App() {
-  const [allNews, setAllNews] = useState([]); // stores all categories news
-  const [news, setNews] = useState([]); // current category/news display
+  const [allNews, setAllNews] = useState([]);
+  const [news, setNews] = useState([]);
   const [filteredNews, setFilteredNews] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [activeSlide, setActiveSlide] = useState(0);
-  const [categoryEmpty, setCategoryEmpty] = useState(false); // tracks empty category
+  const [categoryEmpty, setCategoryEmpty] = useState(false);
   const timerRef = useRef(null);
 
   const noResults = searchQuery && filteredNews.length === 0;
 
-  // Build API URL
   const buildUrl = (category = "", nextPage = null) => {
     if (nextPage) return nextPage;
     let url = `https://newsdata.io/api/1/news?apikey=${API_KEY}&country=${COUNTRY}`;
@@ -37,7 +44,6 @@ function App() {
     return url;
   };
 
-  // Fetch news for a specific category
   const fetchCategoryNews = async (category) => {
     try {
       const url = buildUrl(category);
@@ -50,7 +56,6 @@ function App() {
     }
   };
 
-  // Pre-fetch all categories on app load
   const fetchAllCategories = async () => {
     setLoading(true);
     setError(null);
@@ -66,10 +71,13 @@ function App() {
         (v, i, a) => a.findIndex((t) => t.title === v.title) === i
       );
 
-      setAllNews(unique);
-      setNews(unique); // initial display
-      setFilteredNews(unique);
-      localStorage.setItem("news", JSON.stringify(unique));
+      // Shuffle news for random order
+      const shuffledNews = shuffleArray(unique);
+
+      setAllNews(shuffledNews);
+      setNews(shuffledNews);
+      setFilteredNews(shuffledNews);
+      localStorage.setItem("news", JSON.stringify(shuffledNews));
     } catch (err) {
       setError(err.message);
     } finally {
@@ -88,7 +96,6 @@ function App() {
     }
   }, []);
 
-  // Carousel auto-scroll
   useEffect(() => {
     if (filteredNews.length === 0) return;
 
@@ -114,12 +121,10 @@ function App() {
     setActiveSlide((prev) => (prev + 1) % slideCount);
   };
 
-  // Category change
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
 
     if (!category) {
-      // "All" category
       setNews(allNews);
       setFilteredNews(
         allNews.filter((item) =>
@@ -130,7 +135,6 @@ function App() {
       );
       setCategoryEmpty(false);
     } else {
-      // Filter allNews by selected category
       const categoryFiltered = allNews.filter((item) =>
         item.category
           ?.map((c) => c.toLowerCase())
@@ -155,7 +159,6 @@ function App() {
     }
   };
 
-  // Search across all categories
   const handleSearch = (query) => {
     setSearchQuery(query);
     if (!query) {
@@ -190,7 +193,6 @@ function App() {
         </div>
       )}
 
-      {/* Show message if selected category has no news */}
       {categoryEmpty && (
         <div className="grid mt-4 p-10 w-full text-center text-gray-500 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/20 rounded-xl">
           <p className="mx-auto mb-4 text-6xl text-gray-400 dark:text-gray-200 bg-gray-500/10 rounded-2xl p-3 ">
@@ -208,7 +210,6 @@ function App() {
         </div>
       )}
 
-      {/* Custom Carousel */}
       {!categoryEmpty && filteredNews.length > 0 && (
         <div className="carousel-container mb-10">
           <div
@@ -249,7 +250,6 @@ function App() {
             ))}
           </div>
 
-          {/* Progress Bars */}
           <div className="carousel-progress-container">
             {filteredNews.slice(0, 6).map((_, idx) => (
               <div
@@ -270,7 +270,6 @@ function App() {
         </div>
       )}
 
-      {/* Category + Search */}
       <Category
         selectedCategory={selectedCategory}
         onCategoryChange={handleCategoryChange}
@@ -278,7 +277,6 @@ function App() {
         onSearch={handleSearch}
       />
 
-      {/* News Grid */}
       {!categoryEmpty && (
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {filteredNews.map((item, idx) => (
