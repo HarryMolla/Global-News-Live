@@ -4,7 +4,7 @@ import Category from "./components/Category";
 import "./index.css";
 import { MdOutlineSentimentDissatisfied } from "react-icons/md";
 
-const API_KEY = "pub_fcfccf041f154b23b7096e5238008114";
+const API_KEY = "pub_5caae07dd2ad4b2986dde5ddc1499fd5";
 const COUNTRY = "us";
 const CATEGORIES = [
   "business",
