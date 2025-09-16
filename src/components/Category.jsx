@@ -19,6 +19,10 @@ function Category({ selectedCategory, onCategoryChange, searchQuery, onSearch })
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const btnRefs = useRef({});
 
+  useEffect(() => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+}, [selectedCategory]);
+
   // Detect keyboard via input focus/blur events
   useEffect(() => {
     const input = document.querySelector("input[type='text']");

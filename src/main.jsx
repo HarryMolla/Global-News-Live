@@ -6,9 +6,11 @@ import NewsDetail from './pages/NewsDetail.jsx';
 import Layout from './pages/Layout.jsx';
 import LetsConnect from './pages/LetsConnect.jsx';
 import HowIBuiltThis from './pages/HowIBuiltThis.jsx';
+import ScrollToTop from './components/ScrollToTop';
 
 createRoot(document.getElementById('root')).render(
   <BrowserRouter>
+    <ScrollToTop/>
     <Routes>
       <Route path="/" element={<Layout />}>
       <Route index element={<App/>} />

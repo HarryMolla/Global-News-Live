@@ -91,7 +91,7 @@ function NewsDetail() {
       )}
 
       {/* Related News */}
-      {relatedNews.length > 0 && (
+      {relatedNews.length > 0 ? (
         <div className="mt-10">
           <h3 className="text-xl font-semibold mb-4">Related News</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -137,6 +137,8 @@ function NewsDetail() {
             ))}
           </div>
         </div>
+      ) : (
+        <p className="mt-4 text-gray-500">No related news</p>
       )}
     </div>
   );
